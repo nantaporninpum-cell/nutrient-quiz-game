@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ทบทวนสารอาหารกับเกมสนุก</title>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fff8ec;--card:#fff;--tx:#2b2b3a;--mut:#6b6b80;--pri:#ff8a3d;--ok:#2e9e5b;--okbg:#e3f6ea;--no:#d9822b;--nobg:#fff0dc;--bd:#f0dcc0;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1d1b26;--card:#2a2735;--tx:#f3f0fa;--mut:#aaa6bd;--pri:#ff9a55;--ok:#6fd49a;--okbg:#1f3a2c;--no:#ffb066;--nobg:#3d2f20;--bd:#443f56}}
+:root[data-theme="dark"]{--bg:#1d1b26;--card:#2a2735;--tx:#f3f0fa;--mut:#aaa6bd;--pri:#ff9a55;--ok:#6fd49a;--okbg:#1f3a2c;--no:#ffb066;--nobg:#3d2f20;--bd:#443f56}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:'Prompt','Noto Sans Thai',Tahoma,sans-serif;min-height:100vh;display:flex;justify-content:center;padding:16px}
+main{width:100%;max-width:640px}
+.card{background:var(--card);border:2px solid var(--bd);border-radius:20px;padding:20px;margin-top:12px}
+h1{font-size:1.7rem;margin:.2em 0}
+.big{font-size:4rem;text-align:center}
+.c{text-align:center}
+p{line-height:1.6}
+.mut{color:var(--mut)}
+button{font:inherit;cursor:pointer}
+.btn{background:var(--pri);color:#fff;border:0;border-radius:14px;padding:12px 28px;font-size:1.1rem;font-weight:600}
+.opt{display:block;width:100%;text-align:left;background:var(--card);color:var(--tx);border:2px solid var(--bd);border-radius:14px;padding:12px 14px;margin:8px 0;font-size:1.05rem}
+.opt:hover:not(:disabled){border-color:var(--pri)}
+.opt.ok{background:var(--okbg);border-color:var(--ok)}
+.opt.no{background:var(--nobg);border-color:var(--no)}
+.top{display:flex;justify-content:space-between;font-weight:600}
+.bar{height:12px;background:var(--bd);border-radius:8px;overflow:hidden;margin:10px 0}
+.bar i{display:block;height:100%;width:100%;background:var(--ok);transition:width .25s linear,background .3s}
+.fb{border-radius:14px;padding:12px 14px;margin-top:10px}
+.fb.ok{background:var(--okbg)}.fb.no{background:var(--nobg)}
+.q{font-size:1.2rem;font-weight:600;margin:6px 0}
+</style>
+</head>
+<body>
+<main id="app"></main>
+<script>
+var Q=[
+{q:"ข้าว ขนมปัง และเส้นก๋วยเตี๋ยว เป็นแหล่งของสารอาหารอะไรมากที่สุด?",o:["โปรตีน","คาร์โบไฮเดรต","วิตามิน","เกลือแร่"],a:1,e:"คาร์โบไฮเดรตเป็นแหล่งพลังงานหลักของร่างกาย พบมากในข้าว แป้ง และน้ำตาล"},
+{q:"สารอาหารใดช่วยซ่อมแซมและสร้างเสริมส่วนที่สึกหรอของร่างกาย เช่น กล้ามเนื้อ?",o:["ไขมัน","น้ำ","โปรตีน","คาร์โบไฮเดรต"],a:2,e:"โปรตีนเป็นเหมือนวัสดุก่อสร้างของร่างกาย ช่วยสร้างและซ่อมแซมเซลล์ พบในไข่ นม เนื้อสัตว์ และถั่ว"},
+{q:"ข้อใดเป็นหน้าที่ของไขมัน?",o:["ช่วยย่อยน้ำตาล","ให้พลังงานและช่วยรักษาความอบอุ่นของร่างกาย","ทำให้กระดูกแข็งแรง","ช่วยให้ตาเห็นชัด"],a:1,e:"ไขมันให้พลังงานและเก็บสะสมใต้ผิวหนังเพื่อช่วยรักษาอุณหภูมิของร่างกาย แต่ควรกินแต่พอดี"},
+{q:"สารอาหารใดช่วยระบายความร้อนและลำเลียงสารอาหารไปทั่วร่างกาย?",o:["น้ำ","โปรตีน","ไขมัน","วิตามิน"],a:0,e:"น้ำเป็นส่วนประกอบสำคัญของร่างกาย ช่วยระบายความร้อนผ่านเหงื่อและพาสารอาหารไปยังส่วนต่างๆ"},
+{q:"วิตามินมีหน้าที่หลักคือข้อใด?",o:["ให้พลังงานมากที่สุด","เป็นวัสดุสร้างกล้ามเนื้อ","ช่วยให้ร่างกายทำงานได้เป็นปกติและต้านทานโรค","เก็บสะสมเป็นไขมัน"],a:2,e:"ร่างกายต้องการวิตามินในปริมาณน้อยแต่สำคัญมาก ช่วยให้อวัยวะต่างๆ ทำงานได้ดีและมีภูมิต้านทานโรค"},
+{q:"แคลเซียมในนมช่วยเรื่องใดเป็นพิเศษ?",o:["ทำให้กระดูกและฟันแข็งแรง","ให้พลังงานทันที","ช่วยระบายความร้อน","สร้างไขมัน"],a:0,e:"แคลเซียมเป็นเกลือแร่ชนิดหนึ่ง ช่วยสร้างกระดูกและฟันให้แข็งแรง"},
+{q:"อาหารในข้อใดเป็นแหล่งโปรตีนที่ดี?",o:["น้ำอัดลม","ข้าวสวย","ไข่และปลา","น้ำมันพืช"],a:2,e:"ไข่ ปลา เนื้อสัตว์ นม และถั่ว เป็นแหล่งโปรตีนที่ดี ช่วยให้ร่างกายเจริญเติบโต"},
+{q:"สารอาหารใดให้พลังงานสูงที่สุดเมื่อเทียบน้ำหนักเท่ากัน?",o:["ไขมัน","คาร์โบไฮเดรต","โปรตีน","น้ำ"],a:0,e:"ไขมัน 1 กรัมให้พลังงานประมาณ 9 กิโลแคลอรี ส่วนคาร์โบไฮเดรตและโปรตีนให้ประมาณ 4 กิโลแคลอรี"},
+{q:"สารอาหารข้อใดไม่ให้พลังงานแก่ร่างกาย?",o:["คาร์โบไฮเดรต","โปรตีน","ไขมัน","วิตามิน"],a:3,e:"วิตามินไม่ให้พลังงาน แต่ช่วยให้ร่างกายใช้พลังงานและทำงานได้ดี เช่นเดียวกับเกลือแร่และน้ำ"},
+{q:"ผักและผลไม้หลากสีอุดมด้วยสารอาหารกลุ่มใดเป็นพิเศษ?",o:["ไขมันและน้ำมัน","วิตามินและเกลือแร่","แป้งอย่างเดียว","โปรตีนอย่างเดียว"],a:1,e:"ผักและผลไม้มีวิตามินและเกลือแร่มาก ช่วยให้ร่างกายแข็งแรง ควรกินให้หลากหลายสีทุกวัน"}
+];
+var cheer=["เก่งมาก! 🎉","ถูกต้อง! เยี่ยมไปเลย ⭐","สุดยอด! 👏","ใช่เลย! เก่งจัง 🌟"];
+var soft=["ไม่เป็นไรนะ ลองดูเฉลยกัน 💪","เกือบแล้ว! ข้อต่อไปลุยกัน 😊","พลาดได้ เราได้เรียนรู้เพิ่ม 🌱"];
+var i=0,score=0,right=0,t=20,tm=null,done=false,app=document.getElementById('app');
+function start(){i=0;score=0;right=0;
+app.innerHTML='<div class="card c"><div class="big">🥗</div><h1>ทบทวนสารอาหารกัน!</h1><p class="mut">10 ข้อ ข้อละ 20 วินาที ตอบถูกได้ 10 คะแนน<br>ตอบผิดไม่เป็นไร เรามีเฉลยให้ดู เล่นเพื่อทบทวนความรู้กันนะ 😊</p><button class="btn" onclick="show()">เริ่มเล่น</button></div>'}
+function show(){done=false;t=20;var d=Q[i];
+var h='<div class="top"><span>ข้อ '+(i+1)+'/10</span><span>⭐ '+score+' คะแนน</span></div><div class="bar"><i id="b"></i></div><div class="card"><div class="mut" id="tl">⏱ เหลือ 20 วินาที</div><div class="q">'+d.q+'</div>';
+d.o.forEach(function(x,k){h+='<button class="opt" onclick="pick('+k+')">'+'กขคง'[k]+'. '+x+'</button>'});
+app.innerHTML=h+'<div id="fb"></div></div>';
+clearInterval(tm);tm=setInterval(function(){t--;
+var b=document.getElementById('b'),l=document.getElementById('tl');
+if(b){b.style.width=(t/20*100)+'%';if(t<=5)b.style.background='var(--no)'}
+if(l)l.textContent='⏱ เหลือ '+t+' วินาที';
+if(t<=0)pick(-1)},1000)}
+function pick(k){if(done)return;done=true;clearInterval(tm);
+var d=Q[i],ok=k===d.a,btns=document.querySelectorAll('.opt'),f=document.getElementById('fb'),m;
+btns.forEach(function(x,n){x.disabled=true;if(n===d.a)x.classList.add('ok');else if(n===k)x.classList.add('no')});
+if(ok){score+=10;right++;m='<div class="fb ok"><b>'+cheer[i%4]+'</b> +10 คะแนน</div>'}
+else{m='<div class="fb no"><b>'+(k<0?'หมดเวลาแล้ว ไม่เป็นไรนะ ⏰':soft[i%3])+'</b><br>คำตอบที่ถูกคือ: '+'กขคง'[d.a]+'. '+d.o[d.a]+'<br>💡 '+d.e+'</div>'}
+f.innerHTML=m+'<p class="c"><button class="btn" onclick="next()">'+(i<9?'ข้อต่อไป ➜':'ดูผลลัพธ์')+'</button></p>'}
+function next(){i++;if(i<10)show();else end()}
+function end(){var s=right>=9?'🏆':right>=7?'🌟':right>=5?'👍':'🌱';
+var msg=right>=9?'ยอดเยี่ยมมาก! คุณเข้าใจเรื่องสารอาหารดีสุดๆ':right>=7?'เก่งมาก! เข้าใจเรื่องสารอาหารได้ดีเลย':right>=5?'ทำได้ดี! ทบทวนอีกนิดจะยิ่งเก่งขึ้น':'เยี่ยมที่กล้าลอง! เล่นอีกรอบ จะจำได้มากขึ้นแน่นอน';
+app.innerHTML='<div class="card c"><div class="big">'+s+'</div><h1>เล่นจบแล้ว!</h1><p class="q">ได้ '+score+' คะแนน (ถูก '+right+' จาก 10 ข้อ)</p><p>'+msg+' ขอบคุณที่ตั้งใจเล่นนะ 💚</p><button class="btn" onclick="start()">เล่นอีกครั้ง</button></div>'}
+start();
+</script>
+</body>
+</html>
